@@ -68,6 +68,8 @@ const imp = {
     ? salvate.categorie.filter((id) => PAROLE.some((c) => c.id === id))
     : PAROLE.map((c) => c.id),
   indizio: salvate.indizio !== false,
+  // Spenta di base: con l'indizio a volte svela la parola (es. "tasti" + "Musica" = pianoforte)
+  categoriaImpostore: salvate.categoriaImpostore === true,
 };
 
 function salvaImpostazioni() {
@@ -162,6 +164,7 @@ function aggiornaImpostazioni() {
   disegnaImpostori();
   disegnaCategorie();
   $("indizio").checked = imp.indizio;
+  $("categoria-impostore").checked = imp.categoriaImpostore;
   salvaImpostazioni();
   nascondiErrore();
 }
@@ -200,6 +203,11 @@ $("tutte").addEventListener("click", () => {
 
 $("indizio").addEventListener("change", () => {
   imp.indizio = $("indizio").checked;
+  salvaImpostazioni();
+});
+
+$("categoria-impostore").addEventListener("change", () => {
+  imp.categoriaImpostore = $("categoria-impostore").checked;
   salvaImpostazioni();
 });
 
@@ -251,6 +259,7 @@ function nuovaPartita() {
     parola: p.parola,
     categoria: p.categoria,
     indizio: imp.indizio ? p.indizi[caso(p.indizi.length)] : "",
+    categoriaImpostore: imp.categoriaImpostore,
     primo: caso(giocatori.length),
     turno: 0,
     votato: null,
@@ -301,19 +310,22 @@ function disegnaCarta() {
   const c = categoria(partita.categoria);
   const impostore = partita.impostori.includes(partita.turno);
   $("carta-nome").textContent = partita.giocatori[partita.turno];
+  $("carta-ruolo").hidden = !impostore;
+  $("carta-categoria").hidden = impostore && !partita.categoriaImpostore;
   $("carta-categoria").textContent = `${c.icona} ${c.nome}`;
+  $("carta-parola").hidden = impostore && !partita.indizio;
   if (!impostore) {
     $("carta-titolo").textContent = "La parola segreta è";
     $("carta-parola").textContent = partita.parola;
     $("carta-nota").textContent = "Non farla vedere a nessuno.";
   } else if (partita.indizio) {
-    $("carta-titolo").textContent = "Sei l'impostore · il tuo indizio è";
+    $("carta-titolo").textContent = "Il tuo indizio è";
     $("carta-parola").textContent = partita.indizio;
     $("carta-nota").textContent = "Non conosci la parola segreta: mimetizzati e cerca di capirla.";
   } else {
-    $("carta-titolo").textContent = "Non conosci la parola";
-    $("carta-parola").textContent = "Sei l'impostore";
-    $("carta-nota").textContent = "Ascolta gli altri, mimetizzati e cerca di capirla.";
+    $("carta-titolo").textContent = "Nessun indizio";
+    $("carta-parola").textContent = "";
+    $("carta-nota").textContent = "Non conosci la parola segreta: ascolta gli altri, mimetizzati e cerca di capirla.";
   }
 }
 
