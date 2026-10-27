@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1b1430">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Impostore">
+  <meta name="description" content="Il gioco dell'impostore: passatevi il telefono e scoprite chi non conosce la parola">
+  <title>Impostore</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕵️</text></svg>">
+  <link rel="stylesheet" href="impostore.css">
+</head>
+<body>
+  <main>
+    <!-- Impostazioni della partita -->
+    <section id="s-impostazioni" class="screen">
+      <header class="hero">
+        <span class="hero-icon" aria-hidden="true">🕵️</span>
+        <h1>Impostore</h1>
+        <p class="lead">Passatevi il telefono: tutti leggono la parola segreta, tranne l'impostore.</p>
+      </header>
+
+      <div class="panel">
+        <h2>Giocatori <span id="n-giocatori" class="count"></span></h2>
+        <p class="hint">Nell'ordine in cui siete seduti: il telefono passerà in questo ordine.</p>
+        <ol id="giocatori" class="players"></ol>
+        <button id="aggiungi" class="btn btn-ghost" type="button">+ Aggiungi giocatore</button>
+      </div>
+
+      <div class="panel">
+        <h2>Impostori</h2>
+        <div class="stepper">
+          <button id="meno" class="step" type="button" aria-label="Un impostore in meno">−</button>
+          <output id="n-impostori" aria-live="polite">1</output>
+          <button id="piu" class="step" type="button" aria-label="Un impostore in più">+</button>
+        </div>
+        <p id="nota-impostori" class="hint"></p>
+      </div>
+
+      <div class="panel">
+        <h2>Categorie</h2>
+        <div id="categorie" class="chips"></div>
+        <button id="tutte" class="btn btn-ghost btn-small" type="button">Tutte</button>
+      </div>
+
+      <div class="panel">
+        <label class="switch">
+          <input id="indizio" type="checkbox" checked>
+          <span class="switch-track" aria-hidden="true"></span>
+          <span>
+            <strong>Indizio per l'impostore</strong>
+            <span class="hint">Una parola che lo avvicina a quella segreta, senza svelarla</span>
+          </span>
+        </label>
+      </div>
+
+      <p id="errore" class="error" role="alert" hidden></p>
+      <button id="inizia" class="btn btn-main" type="button">Inizia la partita</button>
+
+      <details class="rules">
+        <summary>Come si gioca</summary>
+        <ol>
+          <li>L'app sceglie a caso una parola segreta e un impostore.</li>
+          <li>Il telefono passa di mano in mano: ognuno legge la sua carta senza farla vedere. Tutti trovano la parola, l'impostore trova solo la categoria e un indizio.</li>
+          <li>A turno, ognuno dice <strong>una parola</strong> collegata a quella segreta: abbastanza per far capire agli altri che la conosce, ma non così chiara da svelarla all'impostore.</li>
+          <li>L'impostore deve mimetizzarsi e intanto capire qual è la parola.</li>
+          <li>Dopo uno o più giri si vota chi è l'impostore. Se viene scoperto ha un'ultima possibilità: indovinare la parola segreta.</li>
+        </ol>
+      </details>
+    </section>
+
+    <!-- Passaggio del telefono -->
+    <section id="s-passa" class="screen" hidden>
+      <div class="topbar">
+        <span id="progresso" class="progress"></span>
+        <button class="btn-exit" type="button" data-esci>✕ Esci</button>
+      </div>
+      <div class="center">
+        <p class="lead">Passa il telefono a</p>
+        <p id="passa-nome" class="big-name"></p>
+        <p class="hint">Gli altri non devono guardare lo schermo.</p>
+      </div>
+      <button id="mostra" class="btn btn-main" type="button"></button>
+    </section>
+
+    <!-- Carta segreta: stesso aspetto per tutti, così da lontano non si capisce chi è l'impostore -->
+    <section id="s-carta" class="screen" hidden>
+      <div class="topbar">
+        <span id="carta-nome" class="progress"></span>
+      </div>
+      <div class="card" aria-live="polite">
+        <p id="carta-titolo" class="card-label"></p>
+        <p id="carta-parola" class="card-word"></p>
+        <p id="carta-categoria" class="card-meta"></p>
+        <p id="carta-nota" class="card-note"></p>
+      </div>
+      <button id="nascondi" class="btn btn-main" type="button">Ho visto: nascondi</button>
+    </section>
+
+    <!-- Discussione -->
+    <section id="s-discussione" class="screen" hidden>
+      <div class="topbar">
+        <span class="progress">Tutti hanno la loro carta</span>
+        <button class="btn-exit" type="button" data-esci>✕ Esci</button>
+      </div>
+      <div class="center">
+        <p class="lead">Inizia</p>
+        <p id="primo" class="big-name"></p>
+        <p class="hint">poi si continua in senso orario.</p>
+      </div>
+      <div class="panel">
+        <p>A turno dite <strong>una parola</strong> collegata a quella segreta. Fate uno o più giri, poi votate chi secondo voi è l'impostore.</p>
+        <p id="ordine" class="order"></p>
+      </div>
+      <button id="al-voto" class="btn btn-main" type="button">Andate al voto</button>
+    </section>
+
+    <!-- Voto -->
+    <section id="s-voto" class="screen" hidden>
+      <div class="topbar">
+        <span class="progress">Votazione</span>
+        <button class="btn-exit" type="button" data-esci>✕ Esci</button>
+      </div>
+      <h2 class="screen-title">Chi avete votato?</h2>
+      <p class="hint center-text">Votate tutti insieme, poi tocca il nome di chi ha preso più voti.</p>
+      <div id="votabili" class="vote-grid"></div>
+      <button id="salta-voto" class="btn btn-ghost" type="button">Nessun voto: rivela l'impostore</button>
+    </section>
+
+    <!-- Verdetto: prima chi era l'impostore, poi (dopo il suo ultimo tentativo) la parola -->
+    <section id="s-verdetto" class="screen" hidden>
+      <div class="topbar">
+        <span class="progress">Verdetto</span>
+        <button class="btn-exit" type="button" data-esci>✕ Esci</button>
+      </div>
+      <div class="center">
+        <p id="verdetto-icona" class="verdict-icon" aria-hidden="true"></p>
+        <p id="verdetto" class="verdict"></p>
+        <p id="impostori-erano" class="lead"></p>
+      </div>
+      <div class="panel">
+        <p id="ultima-possibilita"></p>
+      </div>
+      <button id="mostra-parola" class="btn btn-main" type="button">Mostra la parola</button>
+    </section>
+
+    <!-- Fine della partita -->
+    <section id="s-fine" class="screen" hidden>
+      <div class="center">
+        <p class="lead">La parola segreta era</p>
+        <p id="fine-parola" class="big-word"></p>
+        <p id="fine-categoria" class="hint"></p>
+        <p id="fine-indizio" class="lead"></p>
+        <p id="fine-impostori" class="hint"></p>
+      </div>
+      <button id="ancora" class="btn btn-main" type="button">Gioca ancora</button>
+      <button id="cambia" class="btn btn-ghost" type="button">Cambia giocatori o categorie</button>
+    </section>
+  </main>
+
+  <script src="parole-impostore.js"></script>
+  <script src="impostore.js"></script>
+</body>
+</html>
