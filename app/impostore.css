@@ -317,6 +317,12 @@ h2 {
   box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.4);
 }
 
+.switch + .switch {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--panel-border);
+}
+
 .switch strong {
   display: block;
   margin-bottom: 0.15rem;

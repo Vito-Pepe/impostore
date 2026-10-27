@@ -9,14 +9,14 @@ Il gioco dell'impostore da giocare con un telefono solo, passandolo di mano in m
 
 1. Si scrivono i nomi dei giocatori (almeno 3, nell'ordine in cui si è seduti), si sceglie quanti impostori (1, oppure di più dai 5 giocatori in su) e le categorie di parole.
 2. L'app sceglie a caso una parola segreta e l'impostore.
-3. Il telefono passa di mano in mano: ognuno tocca "Sono io: mostra la carta", legge e nasconde. Tutti vedono la parola e la categoria, l'impostore vede in rosso **Sei l'impostore** e solo **un indizio** (si può togliere dalle impostazioni). La categoria all'impostore non viene mostrata: insieme all'indizio a volte svelava la parola ("tasti" + "Musica" = pianoforte).
+3. Il telefono passa di mano in mano: ognuno tocca "Sono io: mostra la carta", legge e nasconde. Tutti vedono la parola e la categoria, l'impostore vede in rosso **Sei l'impostore** e solo **un indizio**. Due interruttori nelle impostazioni: **Indizio per l'impostore** (acceso di base) e **Categoria per l'impostore** (spento di base: insieme all'indizio a volte svela la parola, es. "tasti" + "Musica" = pianoforte).
 4. L'app dice chi inizia: a turno ognuno dice una parola collegata a quella segreta, senza svelarla.
 5. Si vota a voce e si tocca il nome di chi ha preso più voti. L'app dice se era l'impostore; poi l'impostore prova a indovinare la parola e infine si mostra la parola segreta.
 6. "Gioca ancora" rifà la partita con gli stessi giocatori: nuova parola, nuovo impostore.
 
 Dettagli:
 - Le parole già uscite non si ripetono finché non sono uscite tutte quelle delle categorie scelte (memoria del browser).
-- Nomi, impostori e categorie restano salvati nel browser per la volta dopo.
+- Nomi, impostori, categorie e interruttori restano salvati nel browser per la volta dopo.
 - Se la pagina si ricarica a metà partita, la partita riprende da "Passa il telefono a…", mai da una carta aperta.
 - Aperto in HTTPS, lo schermo resta acceso durante la partita.
 

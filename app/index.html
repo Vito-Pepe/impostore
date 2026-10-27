@@ -53,6 +53,14 @@
             <span class="hint">Una parola che lo avvicina a quella segreta, senza svelarla</span>
           </span>
         </label>
+        <label class="switch">
+          <input id="categoria-impostore" type="checkbox">
+          <span class="switch-track" aria-hidden="true"></span>
+          <span>
+            <strong>Categoria per l'impostore</strong>
+            <span class="hint">Più facile: insieme all'indizio a volte svela la parola</span>
+          </span>
+        </label>
       </div>
 
       <p id="errore" class="error" role="alert" hidden></p>
@@ -62,7 +70,7 @@
         <summary>Come si gioca</summary>
         <ol>
           <li>L'app sceglie a caso una parola segreta e un impostore.</li>
-          <li>Il telefono passa di mano in mano: ognuno legge la sua carta senza farla vedere. Tutti trovano la parola, l'impostore trova solo un indizio.</li>
+          <li>Il telefono passa di mano in mano: ognuno legge la sua carta senza farla vedere. Tutti trovano la parola, l'impostore trova solo un indizio (e la categoria, se attivata).</li>
           <li>A turno, ognuno dice <strong>una parola</strong> collegata a quella segreta: abbastanza per far capire agli altri che la conosce, ma non così chiara da svelarla all'impostore.</li>
           <li>L'impostore deve mimetizzarsi e intanto capire qual è la parola.</li>
           <li>Dopo uno o più giri si vota chi è l'impostore. Se viene scoperto ha un'ultima possibilità: indovinare la parola segreta.</li>
@@ -84,7 +92,7 @@
       <button id="mostra" class="btn btn-main" type="button"></button>
     </section>
 
-    <!-- Carta segreta: stessa forma per tutti; solo l'impostore ha la scritta rossa e non vede la categoria -->
+    <!-- Carta segreta: stessa forma per tutti; solo l'impostore ha la scritta rossa e vede la categoria solo se attivata -->
     <section id="s-carta" class="screen" hidden>
       <div class="topbar">
         <span id="carta-nome" class="progress"></span>
