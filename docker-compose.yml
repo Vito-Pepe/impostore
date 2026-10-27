@@ -1,0 +1,25 @@
+services:
+  impostore:
+    build: .
+    ports:
+      # Raggiungibile dalla LAN (http://IP-DEL-PI:8089) e dalla tailnet
+      # (https://impostore.<tailnet>.ts.net dalla repo ingressi-https). Mai su Internet.
+      # 8080-8088 sono già usate da altre app sul Pi.
+      - "8089:80"
+    # Pagine statiche: il container non scrive niente, tranne i file temporanei di nginx
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    cap_drop:
+      - ALL
+    cap_add:
+      # Servono solo a nginx per avviare i processi con l'utente "nginx"
+      - CHOWN
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 50
+    restart: unless-stopped
