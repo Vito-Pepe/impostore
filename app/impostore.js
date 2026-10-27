@@ -301,19 +301,24 @@ function disegnaCarta() {
   const c = categoria(partita.categoria);
   const impostore = partita.impostori.includes(partita.turno);
   $("carta-nome").textContent = partita.giocatori[partita.turno];
+  // All'impostore niente categoria: con l'indizio renderebbe la parola troppo facile
+  // (es. "tasti" + "Musica" = pianoforte)
+  $("carta-ruolo").hidden = !impostore;
+  $("carta-categoria").hidden = impostore;
   $("carta-categoria").textContent = `${c.icona} ${c.nome}`;
+  $("carta-parola").hidden = impostore && !partita.indizio;
   if (!impostore) {
     $("carta-titolo").textContent = "La parola segreta è";
     $("carta-parola").textContent = partita.parola;
     $("carta-nota").textContent = "Non farla vedere a nessuno.";
   } else if (partita.indizio) {
-    $("carta-titolo").textContent = "Sei l'impostore · il tuo indizio è";
+    $("carta-titolo").textContent = "Il tuo indizio è";
     $("carta-parola").textContent = partita.indizio;
     $("carta-nota").textContent = "Non conosci la parola segreta: mimetizzati e cerca di capirla.";
   } else {
-    $("carta-titolo").textContent = "Non conosci la parola";
-    $("carta-parola").textContent = "Sei l'impostore";
-    $("carta-nota").textContent = "Ascolta gli altri, mimetizzati e cerca di capirla.";
+    $("carta-titolo").textContent = "Nessun indizio";
+    $("carta-parola").textContent = "";
+    $("carta-nota").textContent = "Non conosci la parola segreta: ascolta gli altri, mimetizzati e cerca di capirla.";
   }
 }
 

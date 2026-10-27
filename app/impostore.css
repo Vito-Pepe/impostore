@@ -8,6 +8,7 @@
   --accent: #ff4d6d;
   --accent-2: #ff8a5c;
   --ok: #3ddc97;
+  --impostore: #ff8095;
   --radius: 18px;
 }
 
@@ -446,7 +447,7 @@ h2 {
   overflow-wrap: anywhere;
 }
 
-/* Carta segreta: stessi colori e stessa forma per tutti */
+/* Carta segreta: stessa forma per tutti */
 .card {
   margin: auto 0;
   min-height: 52vh;
@@ -464,6 +465,21 @@ h2 {
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+}
+
+/* Solo sulla carta dell'impostore: rosso tenue, nei toni dei pulsanti */
+.card-role {
+  font-size: clamp(1.5rem, 7vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: var(--impostore);
+  background: rgba(255, 107, 129, 0.14);
+  border: 1px solid rgba(255, 107, 129, 0.45);
+  border-radius: 999px;
+  padding: 0.45rem 1.2rem;
+  margin-bottom: 0.4rem;
+  text-shadow: 0 0 18px rgba(255, 107, 129, 0.35);
 }
 
 .card-label {
